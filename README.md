@@ -1,6 +1,6 @@
 # Memory Management Using Segmentation
 ## 2nd OS Project 
-## Developers
+#### Developers
 - David Dawood
 - Adham Nour
 - Ziad Tarek
