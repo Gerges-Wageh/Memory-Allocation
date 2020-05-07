@@ -1,6 +1,7 @@
 from copy import deepcopy
 
 import Algorithms
+# Algorithms Should Return Hole Object, not Hole.address
 
 
 class Process:
@@ -15,6 +16,23 @@ class Process:
 # Guess We are Done
 # Apparently Not
 
+
+class Hole:
+    def __init__(self, address=None, size=None):
+        self.address = address
+        self.size = size
+
+    def __str__(self) -> str:  # For Printing a Single Object
+        return str(self.address) + " : " + str(self.size)
+
+    def __repr__(self) -> str:  # For Printing List (Collection) of Objects
+        return str(self.address) + " : " + str(self.size)
+
+
+# Now We Are Done
+# Nope
+
+
 class Memory:
     def __init__(self, Size=0):
         self.Size = Size
@@ -24,22 +42,30 @@ class Memory:
         self.Pro_Seg = {}
         self.Processes = []
 
-    def Add_Hole(self, Start, Size):
+    def Add_Hole(self, hole):
+        added = False
         for i in self.Holes:
-            if Start < i + self.Holes[i] < Start+Size or i < Start + Size < i + self.Holes[i] or Start > self.Size or \
-                    Start+Size > \
-                    self.Size:
+            if hole.address < i.address + i.size < hole.address + hole.size or \
+                    i.address < hole.address + hole.size < i.address + i.size or \
+                    hole.address > self.Size or \
+                    hole.address + hole.size > self.Size:
                 print("Can't Add this Hole")
                 return False
         # self.Holes[Start] = Size
-        if self.Holes[i].StartAdress == Start + Size is not None:
-            self.Holes[Start] += self.Holes[Start + Size]
-            self.Holes.pop(Start + Size)
         for i in self.Holes:
-            if i + self.Holes[i] == Start:
-                self.Holes[i] += Size
-                self.Holes.pop(Start)
+            if i.address == hole.address + hole.size:
+                i.size += hole.size
+                i.address = hole.address
+                added = True
                 break
+        for i in self.Holes:
+            if i.address + i.size == hole.address:
+                i.size += hole.size
+                added = True
+                break
+        if not added:
+            self.Holes.append(hole)
+            sorted(self.Holes, key=lambda Hole: Hole.size)
         return True
 
     def Allocate_Process(self, Pro, Algorithm):
@@ -59,14 +85,15 @@ class Memory:
         self.Processes.append(Pro)
         return True
 
-    def Fill_Hole(self, Start, Pro, Name, Size):
-        if self.Holes[Start] < Size:
+    def Fill_Hole(self, HoLe, Pro, Name, Size):
+        if HoLe.size < Size:
             print("can't Put in Hole")
         else:
-            if self.Holes[Start] - Size != 0:
-                self.Add_Hole(Start + Size, self.Holes[Start] - Size)
-            self.Pro_Seg[Start] = {"Process": Pro, "Name": Name, "Size": Size}
-            self.Holes.pop(Start)
+            if HoLe.size - Size != 0:
+                hole = Hole(HoLe.address + Size, HoLe.size - Size)
+                self.Add_Hole(hole)
+                del hole
+            self.Pro_Seg[HoLe.address] = {"Process": Pro, "Name": Name, "Size": Size}
 
     def DeAllocate(self, Pro):
         try:
@@ -77,10 +104,14 @@ class Memory:
         temp = deepcopy(self.Pro_Seg)
         for i in self.Pro_Seg:
             if self.Pro_Seg[i]["Process"] == Pro.Name:
-                self.Add_Hole(i, self.Pro_Seg[i]["Size"])
+                hole = Hole(i, self.Pro_Seg[i]["Size"])
+                self.Add_Hole(hole)
                 temp.pop(i)
+                del hole
         self.Processes.remove(Pro)
         self.Pro_Seg = deepcopy(temp)
         del temp
 
-# Now We Are Done
+# Please Tell Me We are Done
+# Yep
+# I Hope
