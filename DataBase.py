@@ -1,3 +1,7 @@
+'''
+Updated by: Abdelhamied Amr 7/5/2020 21:02
+
+'''
 from copy import deepcopy
 
 import Algorithms
@@ -93,7 +97,8 @@ class Memory:
                 hole = Hole(HoLe.address + Size, HoLe.size - Size)
                 self.Add_Hole(hole)
                 del hole
-            self.Pro_Seg[HoLe.address] = {"Process": Pro, "Name": Name, "Size": Size}
+            self.Pro_Seg[HoLe.address] = {
+                "Process": Pro, "Name": Name, "Size": Size}
 
     def DeAllocate(self, Pro):
         try:
