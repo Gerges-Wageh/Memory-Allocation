@@ -77,10 +77,10 @@ class Memory:
         for s in Pro.Segments:
             if Algorithm == 0:
                 # Put Algorithm Here
-                Address = Algorithms.First_Fit(Pro.Segments[s], self)
+                Address = Algorithms.First_Fit(Pro.Segments[s], self.Holes)
             elif Algorithm == 1:
                 # Put Algorithm Here
-                Address = Algorithms.Best_Fit(Pro.Segments[s], self)
+                Address = Algorithms.Best_Fit(Pro.Segments[s], self.Holes)
             # Whichever Algorithm used, Returns Start Address of Hole, else Returns None
             if Address is None:
                 return False
