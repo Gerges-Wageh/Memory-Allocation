@@ -1,3 +1,6 @@
+## By: Gerges Wageh ##
+## 8 - 5 - 2020 ##
+
 def draw(self, pro_segment, holes, memory_size):
     starting_address = []
     segment_data = []
