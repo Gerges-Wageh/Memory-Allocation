@@ -6,7 +6,4 @@ def BestFit(se, holes):
                 minv = k
             elif (k.size() < minv.size()):
                 minv = k
-    for k in holes:
-        if (k == minv and k.address < minv.address):
-            minv = k
     return minv
