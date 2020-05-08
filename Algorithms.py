@@ -5,7 +5,7 @@ def First_Fit(segment,holes):
     pos = None
     for  hole in holes:
         if segment.size <= hole.size:
-            pos =  hole.address
+            pos =  hole
             break
     return pos
 def Best_Fit(segment,holes):
