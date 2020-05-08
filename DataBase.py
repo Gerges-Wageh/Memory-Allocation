@@ -1,7 +1,3 @@
-'''
-Updated by: Abdelhamied Amr 7/5/2020 21:02
-
-'''
 from copy import deepcopy
 
 import Algorithms
@@ -69,7 +65,7 @@ class Memory:
                 break
         if not added:
             self.Holes.append(hole)
-            sorted(self.Holes, key=lambda Hole: Hole.size)
+            self.Holes = sorted(self.Holes, key=lambda Hole: Hole.address)
         return True
 
     def Allocate_Process(self, Pro, Algorithm):
@@ -77,10 +73,10 @@ class Memory:
         for s in Pro.Segments:
             if Algorithm == 0:
                 # Put Algorithm Here
-                Address = Algorithms.First_Fit(Pro.Segments[s], self.Holes)
+                Address = Algorithms.First_Fit(Pro.Segments[s], self)
             elif Algorithm == 1:
                 # Put Algorithm Here
-                Address = Algorithms.Best_Fit(Pro.Segments[s], self.Holes)
+                Address = Algorithms.Best_Fit(Pro.Segments[s], self)
             # Whichever Algorithm used, Returns Start Address of Hole, else Returns None
             if Address is None:
                 return False
@@ -97,8 +93,7 @@ class Memory:
                 hole = Hole(HoLe.address + Size, HoLe.size - Size)
                 self.Add_Hole(hole)
                 del hole
-            self.Pro_Seg[HoLe.address] = {
-                "Process": Pro, "Name": Name, "Size": Size}
+            self.Pro_Seg[HoLe.address] = {"Process": Pro, "Name": Name, "Size": Size}
 
     def DeAllocate(self, Pro):
         try:
