@@ -12,6 +12,12 @@ class Process:
         self.Segments = S  # Segments are defined in pairs of Name, Size
         self.Seg_Num = self.Segments.__len__()  # Number of Segments
 
+    def __repr__(self) -> str:
+        return self.Name
+
+    def __str__(self) -> str:
+        return self.Name
+
 
 # Guess We are Done
 # Apparently Not
@@ -45,8 +51,8 @@ class Memory:
     def Add_Hole(self, hole):
         added = False
         for i in self.Holes:
-            if hole.address < i.address + i.size < hole.address + hole.size or \
-                    i.address < hole.address + hole.size < i.address + i.size or \
+            if hole.address < i.address + i.size <= hole.address + hole.size or \
+                    i.address < hole.address + hole.size <= i.address + i.size or \
                     hole.address > self.Size or \
                     hole.address + hole.size > self.Size:
                 print("Can't Add this Hole")
@@ -77,11 +83,10 @@ class Memory:
             elif Algorithm == 1:
                 # Put Algorithm Here
                 Address = Algorithms.Best_Fit(Pro.Segments[s], self)
-            # Whichever Algorithm used, Returns Start Address of Hole, else Returns None
             if Address is None:
+                self.DeAllocate(Pro)
                 return False
             self.Fill_Hole(Address, Pro.Name, s, Pro.Segments[s])
-            # Pro.Allocate_Segment(s)
         self.Processes.append(Pro)
         return True
 
@@ -94,23 +99,26 @@ class Memory:
                 self.Add_Hole(hole)
                 del hole
             self.Pro_Seg[HoLe.address] = {"Process": Pro, "Name": Name, "Size": Size}
+            self.Holes.remove(HoLe)
 
     def DeAllocate(self, Pro):
         try:
             self.Processes.index(Pro)
+            temp = deepcopy(self.Pro_Seg)
+            for i in self.Pro_Seg:
+                if self.Pro_Seg[i]["Process"] == Pro.Name:
+                    hole = Hole(i, self.Pro_Seg[i]["Size"])
+                    self.Add_Hole(hole)
+                    temp.pop(i)
+                    del hole
+            self.Pro_Seg = deepcopy(temp)
+            del temp
         except ValueError:
             print("Oops!  That was no valid number.  Try again...")
+
             return
-        temp = deepcopy(self.Pro_Seg)
-        for i in self.Pro_Seg:
-            if self.Pro_Seg[i]["Process"] == Pro.Name:
-                hole = Hole(i, self.Pro_Seg[i]["Size"])
-                self.Add_Hole(hole)
-                temp.pop(i)
-                del hole
         self.Processes.remove(Pro)
-        self.Pro_Seg = deepcopy(temp)
-        del temp
+
 
 # Please Tell Me We are Done
 # Yep
