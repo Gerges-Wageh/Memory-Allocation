@@ -1,6 +1,17 @@
 ## By: Gerges Wageh ##
 ## 8 - 5 - 2020 ##
 
+
+
+# import these before using the method
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtCore import *
+from PyQt5.uic import loadUiType
+from PyQt5 import QtCore, QtGui, QtWidgets
+import sys
+
+
 def draw(self, pro_segment, holes, memory_size):
     starting_address = []
     segment_data = []
