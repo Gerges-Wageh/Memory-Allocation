@@ -7,4 +7,3 @@ def BestFit(se, holes):
             elif(minHole.size()>k.size()):
                 minHole=k
     return minHole
-    return minHole
