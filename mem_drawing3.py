@@ -356,7 +356,7 @@ class Main(QMainWindow, Ui_MainWindow):
                 self.segment_table.insertRow(index)
                 self.segment_table.setItem(index, 0, QTableWidgetItem(str(pro_segment[i]["Name"])))
                 self.segment_table.setItem(index, 1, QTableWidgetItem(str(i)))
-                self.segment_table.setItem(index, 2, QTableWidgetItem(str(i + pro_segment[i]["Size"])))
+                self.segment_table.setItem(index, 2, QTableWidgetItem(str(pro_segment[i]["Size"])))
                 index += 1
         self.segment_table.resizeRowsToContents()
 
