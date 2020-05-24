@@ -182,7 +182,7 @@ class Ui_holes_Form(object):
     ##############################################################################################################################
     ##############################################################################################################################
     def submit_hole_clicked(self):
-        if self.size_adjusted:
+        if self.size_adjusted or self.total_memory_for_holes_window.Size != 0:
             try:
                 if self.total_memory_for_holes_window.Size < int(self.starting_address_entry.text())+int(self.size_entry.text()):
                     error_msg = QtWidgets.QMessageBox()

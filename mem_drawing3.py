@@ -262,7 +262,8 @@ class Main(QMainWindow, Ui_MainWindow):
         QMainWindow.__init__(self)
         self.setupUi(self)
         self.setWindowTitle('Memory Management')
-        self.pro_list = []
+        self.pro=deepcopy(Ui_holes_Form.processes_list)
+        self.pro_list = deepcopy(self.pro)
         self.ori_holes = []
         self.holes = []
         self.x = {}
@@ -382,6 +383,10 @@ class Main(QMainWindow, Ui_MainWindow):
         self.res_size.clear()
 
     def alloc_btn(self):
+        if self.best_fit_radiobtn.isChecked():
+            self.AL = 1
+        elif self.first_fit_radiobtn.isChecked():
+            self.Al = 0
         if len(self.pro_list) != 0:
             temp = list(self.pro_list[0].Segments.keys())
             t2 = Ui_holes_Form.total_memory_for_holes_window.Allocate_Segment(self.pro_list[0].Name, temp[0],
@@ -394,7 +399,11 @@ class Main(QMainWindow, Ui_MainWindow):
                 self.SHOW()
                 self.pro_list[0].Segments.pop(temp[0])
                 if not self.pro_list[0].Segments:
+                    Ui_holes_Form.total_memory_for_holes_window.Processes.append(self.pro_list[0].Name)
+                    self.pro_choose.addItem(self.pro_list[0].Name)
+                    self.pro_choose.setCurrentIndex(-1)
                     self.pro_list.pop(0)
+
             else:
                 error_msg = QtWidgets.QMessageBox()
                 error_msg.setWindowTitle("No fit")
@@ -403,17 +412,17 @@ class Main(QMainWindow, Ui_MainWindow):
                                       0].Name + "\nCannot be Allocated")
                 error_msg.setIcon(QtWidgets.QMessageBox.Critical)
                 error_msg.exec_()
-                self.pro_list.pop()
+                self.pro_list.pop(0)
 
     def allocate_process_clicked(self):
-        for p in Ui_holes_Form.processes_list:
+        for p in self.pro:
             if self.first_fit_radiobtn.isChecked():
                 Ui_holes_Form.total_memory_for_holes_window.Allocate_Process(p, 0)
                 self.AL = 0
             elif self.best_fit_radiobtn.isChecked():
                 Ui_holes_Form.total_memory_for_holes_window.Allocate_Process(p, 1)
                 self.AL = 1
-        self.pro_list = deepcopy(Ui_holes_Form.processes_list)
+        self.pro_list = deepcopy(self.pro)
         self.pro_choose.clear()
         self.pro_choose.addItems(Ui_holes_Form.total_memory_for_holes_window.Processes)
         self.pro_choose.setCurrentIndex(-1)
@@ -426,6 +435,11 @@ class Main(QMainWindow, Ui_MainWindow):
         self.pro_choose.setCurrentIndex(-1)
         self.segment_table.setRowCount(0)
         self.x = deepcopy(Ui_holes_Form.total_memory_for_holes_window.Pro_Seg)
+        for i in self.pro:
+            if i.Name == t:
+                self.pro.remove(i)
+                break
+        self.pro_list = deepcopy(self.pro)
         self.SHOW()
 
 
