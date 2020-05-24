@@ -34,6 +34,9 @@ class Hole:
     def __repr__(self) -> str:  # For Printing List (Collection) of Objects
         return str(self.address) + " : " + str(self.size)
 
+    def __eq__(self, o) -> bool:
+        return self.address == o.address and self.size == o.size
+
 
 # Now We Are Done
 # Nope

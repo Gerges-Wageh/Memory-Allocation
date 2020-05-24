@@ -244,6 +244,7 @@ class Ui_MainWindow(object):
         self.ui.dealloc_reserve.clicked.connect(self.ui.reserve)
         self.ui.alloc_all.clicked.connect(self.ui.allocate_process_clicked)
         self.ui.alloc.clicked.connect(self.ui.alloc_btn)
+        self.ui.dealloc_current.clicked.connect(self.ui.deallocate_process)
         # self.ui.show_segments_table({30: ['Process 1', 'Segment 1', 120], 200: ['Process 2', 'Segment 1', 75], 300: ['Process 2', 'Segment 2', 75]})
         self.Form.show()
 

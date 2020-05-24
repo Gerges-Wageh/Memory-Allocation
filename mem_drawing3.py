@@ -238,11 +238,9 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.uic import loadUiType
 import sys
-from PyQt5 import QtCore, QtGui, QtWidgets
-
+from PyQt5 import QtCore, QtGui, QtWidgets, uic
+from test import Ui_MainWindow
 from holes_window import Ui_holes_Form
-
-MainUI, _ = loadUiType('test.ui')
 
 
 class Hole:
@@ -257,7 +255,7 @@ class Hole:
         return str(self.address) + " : " + str(self.size)
 
 
-class Main(QMainWindow, MainUI):
+class Main(QMainWindow, Ui_MainWindow):
 
     def __init__(self, parent=None):
         super(Main, self).__init__(parent)
@@ -419,6 +417,17 @@ class Main(QMainWindow, MainUI):
         self.pro_choose.clear()
         self.pro_choose.addItems(Ui_holes_Form.total_memory_for_holes_window.Processes)
         self.pro_choose.setCurrentIndex(-1)
+
+    def deallocate_process(self):
+        t = self.pro_choose.currentText()
+        Ui_holes_Form.total_memory_for_holes_window.DeAllocate(t)
+        self.pro_choose.clear()
+        self.pro_choose.addItems(Ui_holes_Form.total_memory_for_holes_window.Processes)
+        self.pro_choose.setCurrentIndex(-1)
+        self.segment_table.setRowCount(0)
+        self.x = deepcopy(Ui_holes_Form.total_memory_for_holes_window.Pro_Seg)
+        self.SHOW()
+
 
 
 def main():

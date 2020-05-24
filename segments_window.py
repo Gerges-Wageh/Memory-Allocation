@@ -224,6 +224,7 @@ class Ui_segment_Form(object):
                 p.Seg_Num = int(self.number_of_segements_entry.text())
                 Ui_holes_Form.processes_list.append(p)
                 self.table_index = 0
+                self.process_list_row_index = self.no_of_processes
                 self.no_of_processes += 1
                 self.segments_table.clear()
                 self.process_name_lbl.setText("Process:" + self.process_name_entry.text())
