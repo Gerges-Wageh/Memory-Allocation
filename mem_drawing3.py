@@ -405,6 +405,7 @@ class Main(QMainWindow, Ui_MainWindow):
                     self.pro_list.pop(0)
 
             else:
+                self.SHOW()
                 error_msg = QtWidgets.QMessageBox()
                 error_msg.setWindowTitle("No fit")
                 error_msg.setText("The Segment: " + temp[0] + "\nof Size: " + str(

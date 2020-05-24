@@ -145,19 +145,17 @@ class Memory:
 
     def DeAllocate(self, Pro):
         try:
-            self.Processes.index(Pro)
-            temp = deepcopy(self.Pro_Seg)
-            for i in self.Pro_Seg:
-                if self.Pro_Seg[i]["Process"] == Pro:
-                    hole = Hole(i, self.Pro_Seg[i]["Size"])
-                    temp.pop(i)
-                    self.Add_Hole(hole, temp)
-                    del hole
-            self.Pro_Seg = deepcopy(temp)
-            del temp
+            self.Processes.remove(Pro)
         except ValueError:
-            print("Oops!  That was no valid number.  Try again...")
+            pass
+        temp = deepcopy(self.Pro_Seg)
+        for i in self.Pro_Seg:
+            if self.Pro_Seg[i]["Process"] == Pro:
+                hole = Hole(i, self.Pro_Seg[i]["Size"])
+                temp.pop(i)
+                self.Add_Hole(hole, temp)
+                del hole
+        self.Pro_Seg = deepcopy(temp)
+        del temp
 
-            return
-        self.Processes.remove(Pro)
         # Remove Process from Original List
