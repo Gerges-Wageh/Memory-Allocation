@@ -371,7 +371,7 @@ class Main(QMainWindow, Ui_MainWindow):
         hole = Hole(int(self.res_start.text()), int(self.res_size.text()))
         if Ui_holes_Form.total_memory_for_holes_window.Add_Hole(hole,
                                                                 Ui_holes_Form.total_memory_for_holes_window.Pro_Seg):
-            self.pro_list = deepcopy(Ui_holes_Form.processes_list)
+            self.pro_list = deepcopy(self.pro)
             self.SHOW()
         else:
             error_msg = QtWidgets.QMessageBox()
